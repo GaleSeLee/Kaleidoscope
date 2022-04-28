@@ -11,4 +11,6 @@ enum Token {
     tok_identifier = -4;
     tok_number = -5;
 }
+
+int gettok();
 #endif //__KALEDOSCOPE_INCLUDE_LEXER_HPP__

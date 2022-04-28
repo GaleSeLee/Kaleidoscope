@@ -1,5 +1,5 @@
-#ifndef __KALEIDOSCOPE_INCLUDE_ASC_HPP__
-#define __KALEIDOSCOPE_INCLUDE_ASC_HPP__
+#ifndef __KALEIDOSCOPE_INCLUDE_PARSER_HPP__
+#define __KALEIDOSCOPE_INCLUDE_PARSER_HPP__
 #include "lexer.hpp"
 #include <vector>
 #include <memory>
@@ -62,4 +62,4 @@ public:
                 std::unique_ptr<ExprAST> Body);
 };
 
-#endif //__KALEIDOSCOPE_INCLUDE_AST_HPP__
+#endif //__KALEIDOSCOPE_INCLUDE_PARSER_HPP__
