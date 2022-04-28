@@ -1,19 +1,24 @@
-#include<iostream>
-#include<cstring>
-#include<stdlib>
+#include <lexer.hpp>
 
-enum Token {
-    tok_eof = -1;
-    tok_def = -2;
-    tok_extern = -3;
-    tok_identifier = -4;
-    tok_number = -5;
+std::string IdentifierStr;
+double NumVal;
+
+bool isalpha(int LastChar) {
+    if (LastChar <= 'z' && LastChar >= 'a') return true;
+    if (LastChar <= 'Z' && LastChar >= 'A') return true;
+    return false;
 }
 
-static std::string IdentifierStr;
-static double NumVal;
+bool isdigit(int LastChar) {
+    if (LastChar <= '9' && LastChar >= '0') return true;
+    return false;
+}
 
-static int gettok() {
+bool isalnum(int LastChar) {
+    if (isalpha(LastChar) || isdigit(LastChar)) return true;
+}
+
+int gettok() {
     static int LastChar = ' ';
 
     while (isspace(LastChar))
