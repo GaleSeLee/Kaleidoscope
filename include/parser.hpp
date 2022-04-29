@@ -4,11 +4,13 @@
 #include <vector>
 #include <memory>
 
+// The basic Expr abstract syntax tree
 class ExprAST {
 public:
     virtual ~ExprAST(); 
 }
 
+// Expression class for the digit
 class NumberExprAST : public ExprAST {
     double Val;
 
@@ -30,7 +32,7 @@ class BinaryExprAST : public ExprAST {
     std::unique_ptr<ExprAST> LHS, RHS;
 
 public:
-    BinaryExprAST(char op, std::unique_ptr<ExprAST> LHS,
+    BinaryExprAST(char Op, std::unique_ptr<ExprAST> LHS,
                     std::unique_ptr<ExprAST> RHS);
 }
 
@@ -44,6 +46,7 @@ public:
                 std::vector<std::unique_ptr<ExprAST>> Args);
 };
 
+// Expression class for the function call, for instance functionname(id*)
 class PrototypeAST {
     std::string Name;
     std::vector<std::string> Args;
@@ -53,6 +56,7 @@ public:
     const std::string &getName(); 
 };
 
+// Expression class for the function, contains body and name.
 class FunctionAST {
     std::unique_ptr<PrototypeAST> Proto;
     std::unique_ptr<ExprAST> Body;
@@ -65,6 +69,7 @@ public:
 namespace parser {
     int CurTok;
     int getNextToken();
+    int GetTokPrecedence();
     std::map<char, int> BinOpPrecedence;
     BinOpPrecedence['<'] = 10;
     BinOpPrecedence['+'] = 20;
@@ -76,6 +81,11 @@ namespace parser {
     std::unique_ptr<ExprAST> Expression();
     std::unique_ptr<ExprAST> Parse();
     std::unique_ptr<ExprAST> BinOpRHS(int, std::unique_ptr<ExprAST> LHS);
-    int GetTokPrecedence();
+    std::unique_ptr<PrototypeAST> Prototype();
+    std::unique_ptr<FunctionAST> Definition();
+    std::unique_ptr<FunctionAST> TopLevelExpr();
+    void HandleDefinition();
+    void HandleTopLevelExpression();
+    void MainLoop();
 }
 #endif //__KALEIDOSCOPE_INCLUDE_PARSER_HPP__

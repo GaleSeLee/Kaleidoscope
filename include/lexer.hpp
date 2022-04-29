@@ -4,6 +4,14 @@
 #include <cstring>
 #include <stdlib>
 #include <ctype.h>
+#include <map>
+#include <vector>
+#include <string>
+#include <memory>
+#include <utility>
+#include <cctype>
+#include <cstdio>
+#include <cstdlib>
 
 namespace lexer {
 enum Token {
