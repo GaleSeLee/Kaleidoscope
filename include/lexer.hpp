@@ -1,8 +1,9 @@
 #ifndef __KALEIDOSCOPE_INCLUDE_LEXER_HPP__
 #define __KALEIDOSCOPE_INCLUDE_LEXER_HPP__
-#include<iostream>
-#include<cstring>
-#include<stdlib>
+#include <iostream>
+#include <cstring>
+#include <stdlib>
+#include <ctype.h>
 
 namespace lexer {
 enum Token {
@@ -14,5 +15,7 @@ enum Token {
 }
 
 int gettok();
+std::string IdentifierStr;
+double NumVal;
 }
 #endif //__KALEDOSCOPE_INCLUDE_LEXER_HPP__

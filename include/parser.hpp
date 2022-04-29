@@ -65,8 +65,17 @@ public:
 namespace parser {
     int CurTok;
     int getNextToken();
+    std::map<char, int> BinOpPrecedence;
+    BinOpPrecedence['<'] = 10;
+    BinOpPrecedence['+'] = 20;
+    BinOpPrecedence['-'] = 30;
+    BinOpPrecedence['*'] = 40;
     std::unique_ptr<ExprAST> NumberExpr();
     std::unique_ptr<ExprAST> ParenExpr();
     std::unique_ptr<ExprAST> IdentifierExpr();
+    std::unique_ptr<ExprAST> Expression();
+    std::unique_ptr<ExprAST> Parse();
+    std::unique_ptr<ExprAST> BinOpRHS(int, std::unique_ptr<ExprAST> LHS);
+    int GetTokPrecedence();
 }
 #endif //__KALEIDOSCOPE_INCLUDE_PARSER_HPP__

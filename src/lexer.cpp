@@ -1,39 +1,21 @@
 #include <lexer.hpp>
 
-std::string IdentifierStr;
-double NumVal;
-
-bool isalpha(int LastChar) {
-    if (LastChar <= 'z' && LastChar >= 'a') return true;
-    if (LastChar <= 'Z' && LastChar >= 'A') return true;
-    return false;
-}
-
-bool isdigit(int LastChar) {
-    if (LastChar <= '9' && LastChar >= '0') return true;
-    return false;
-}
-
-bool isalnum(int LastChar) {
-    if (isalpha(LastChar) || isdigit(LastChar)) return true;
-}
-
 int lexer::gettok() {
-    static int LastChar = ' ';
+    int LastChar = ' ';
 
     while (isspace(LastChar))
         LastChar = getchar();
 
     if (isalpha(LastChar)) {
-        IdentifierStr = LastChar;
+        lexer::IdentifierStr = LastChar;
         while (isalnum((LastChar = getchar())))
-            IdentifierStr += LastChar;
+            lexer::IdentifierStr += LastChar;
         
-        if (IdentifierStr = "def")
-            return tok_def;
-        if (IdentifierStr = "extern")
-            return def_extern;
-        return tok_identifier;
+        if (lexer::IdentifierStr = "def")
+            return lexer::tok_def;
+        if (lexer::IdentifierStr = "extern")
+            return lexer::def_extern;
+        return lexer::tok_identifier;
     }
 
     if (isdigit(LastChar) || LastChar == '.') {
@@ -43,8 +25,8 @@ int lexer::gettok() {
             LastChar = getchar();
         } while (isdigit(LastChar) || LastChar == '.')
 
-        NumVal = strtod(NumStr.c_str(), 0);
-        return tok_number;
+        lexer::NumVal = strtod(NumStr.c_str(), 0);
+        return lexer::tok_number;
     }
 
     if (LastChar == '#') {
@@ -53,12 +35,12 @@ int lexer::gettok() {
         while (LastChar != EOF && LastChar != '\n' && LastChar != '\r');
 
         if (LastChar != EOF)
-            return gettok();
+            return lexer::gettok();
     }
 
 
     if (LastChar == EOF)
-        return tok_eof;
+        return lexer::tok_eof;
 //ASCII
     int ThisChar = LastChar;
     LastChar = getchar();
