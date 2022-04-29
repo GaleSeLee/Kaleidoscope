@@ -62,4 +62,11 @@ public:
                 std::unique_ptr<ExprAST> Body);
 };
 
+namespace parser {
+    int CurTok;
+    int getNextToken();
+    std::unique_ptr<ExprAST> NumberExpr();
+    std::unique_ptr<ExprAST> ParenExpr();
+    std::unique_ptr<ExprAST> IdentifierExpr();
+}
 #endif //__KALEIDOSCOPE_INCLUDE_PARSER_HPP__

@@ -18,7 +18,7 @@ bool isalnum(int LastChar) {
     if (isalpha(LastChar) || isdigit(LastChar)) return true;
 }
 
-int gettok() {
+int lexer::gettok() {
     static int LastChar = ' ';
 
     while (isspace(LastChar))
