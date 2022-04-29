@@ -87,7 +87,7 @@ std::unique_ptr<ExprAST> parser::Parse() {
 
 // Binary Expression Parsing
 int parser::GetTokPrecedence() {
-    if (!isascii(CurTok))
+    if (!isascii(parser::CurTok))
         return -1;
     
     int TokPrec = BinOpPrecedence[CurTok];
@@ -103,33 +103,50 @@ std::unique_ptr<ExprAST> parser::Expression() {
     return BinOpRHS(0, std::move(LHS));
 }
 
-// The Precedence passed into function indicates the minimal operator precedence
-// that the function is allowed to eat
 std::unique_ptr<ExprASC> parser::BinOpRHS(int ExprPrec, std::unique_ptr<ExprAST> LHS) {
     while (1) {
         int TokPrec = parser::GetTokPrecedence();
-// These codes are confused to me.
         if (TokPrec < ExprPrec)
             return LHS;
         
         int BinOp = parser::CurTok;
         parser::getNextToken();
 
-        auto RHS = Parse();
+        auto RHS = parser::Parse();
         if (!RHS)
             return nullptr;
 
         int NextPrec = parser::GetTokPrecedence();
         if (TokPrec < NextPrec) {
-            RHS = BinOpRHS(TokPrec+1, std::move(RHS));
+            RHS = parser::BinOpRHS(TokPrec+1, std::move(RHS));
             if (!RHS)
                 return nullptr;
         }
 
-        LHS = std::make_unique<BinaryExprAST>(Binop, std::move(LHS), std::move(RHS));
+        LHS = std::make_unique<BinaryExprAST>(BinOp, std::move(LHS), std::move(RHS));
     }
 }
 
+std::unique_ptr<PrototypeAST> parser::Prototype() {
+    if (parser::CurTok != lexer::IdentifierStr)
+        return LogErrorP("Expected function name in prototype");
+
+    std::string FnName = lexer::IdentifierStr;
+    parser::getNextToken();
+
+    if (parser::CurTok != '(')
+        return LogErrorP("Expected '(' in prototype");
+
+    std::vector<std::string> ArgNames;
+    while (parser::getNextToken() == lexer::tok_identifier)
+        ArgNames.push_back(IdentifierStr);
+    if (parser::CurTok != ')')
+        return LogErrorP("Expected ')' in prototype");
+
+    parser::getNextToken();
+    
+    return std::make_unique<PrototypeAST>(FnName, std::move(ArgNames));
+}
 
 int main() {
 }
