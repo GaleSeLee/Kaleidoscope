@@ -83,7 +83,7 @@ std::unique_ptr<ExprAST> parser::IdentifierExpr() {
     return std::make_unique<CallExprAST>(IdName, std::move(Args));
 }
 
-// classify the token from lexer and parser
+// Classify the token from lexer and parser
 std::unique_ptr<ExprAST> parser::Parse() {
     switch (parser::CurTok) {
     default:
@@ -97,8 +97,7 @@ std::unique_ptr<ExprAST> parser::Parse() {
     }
 }
 
-// ================================================================//
-// Binary Expression Parsing
+// Get the Procedence of the operation for the expression parsering
 int parser::GetTokPrecedence() {
     if (!isascii(parser::CurTok))
         return -1;
@@ -108,7 +107,8 @@ int parser::GetTokPrecedence() {
     return TokPrec;
 }
 
-// handle the expression that has been passed
+// There is one detail that needs to be confirmed.
+// Handle the expression that has been passed
 std::unique_ptr<ExprAST> parser::Expression() {
     auto LHS = parser::Parse();
     if (!LHS)
@@ -118,6 +118,7 @@ std::unique_ptr<ExprAST> parser::Expression() {
 }
 
 // handle the precedence of expression
+// TODO 
 std::unique_ptr<ExprASC> parser::BinOpRHS(int ExprPrec, std::unique_ptr<ExprAST> LHS) {
     while (1) {
         int TokPrec = parser::GetTokPrecedence();
@@ -190,7 +191,21 @@ std::unique_ptr<FunctionAST> parser::TopLevelExpr() {
     return nullptr;
 }
 
-void MainLoop() {
+void parser::HandleDef() {
+    if (parser::Definition())
+        fprintf(stderr, "Parsed a function definition. \n");
+    else 
+        parser::getNextToken();
+}
+
+void parser::HandleTLE() {
+    if (parser::TopLevelExpr())
+        fprintf(stderr, "Parsed a top-level expr\n");
+    else 
+        parser::getNextToken();
+}
+
+void parser::MainLoop() {
     while(1) {
         fprintf(stderr, "ready> ");
         switch (parser::CurTok) {
@@ -199,18 +214,26 @@ void MainLoop() {
         case ';':
             parser::getNextToken();
             break;
+        case lexer::tok_def:
+            parser::HandleDef();
+            break;
         case lexer::tok_extern:
             parser::HandleExtern();
             break;
         default:
-            parser::HandleTopLevelExpression();
+            parser::HandleTLE();
             break;
         }
     }
 }
 
 int main() {
+    fprintf(stderr, "ready> ");
+    parser::getNextToken();
 
+    parser::MainLoop();
+
+    return 0;
 }
 
 
