@@ -11,10 +11,10 @@ int lexer::gettok() {
         while (isalnum((LastChar = getchar())))
             lexer::IdentifierStr += LastChar;
         
-        if (lexer::IdentifierStr = "def")
+        if (lexer::IdentifierStr == "def")
             return lexer::tok_def;
-        if (lexer::IdentifierStr = "extern")
-            return lexer::def_extern;
+        if (lexer::IdentifierStr == "extern")
+            return lexer::tok_extern;
         return lexer::tok_identifier;
     }
 
@@ -23,7 +23,7 @@ int lexer::gettok() {
         do {
             NumStr += LastChar;
             LastChar = getchar();
-        } while (isdigit(LastChar) || LastChar == '.')
+        } while (isdigit(LastChar) || LastChar == '.');
 
         lexer::NumVal = strtod(NumStr.c_str(), 0);
         return lexer::tok_number;

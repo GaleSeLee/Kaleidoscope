@@ -2,7 +2,6 @@
 #define __KALEIDOSCOPE_INCLUDE_LEXER_HPP__
 #include <iostream>
 #include <cstring>
-#include <stdlib>
 #include <ctype.h>
 #include <map>
 #include <vector>
@@ -15,12 +14,12 @@
 
 namespace lexer {
 enum Token {
-    tok_eof = -1;
-    tok_def = -2;
-    tok_extern = -3;
-    tok_identifier = -4;
-    tok_number = -5;
-}
+    tok_eof = -1,
+    tok_def = -2,
+    tok_extern = -3,
+    tok_identifier = -4,
+    tok_number = -5
+};
 
 int gettok();
 std::string IdentifierStr;
