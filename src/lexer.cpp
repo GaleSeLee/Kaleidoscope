@@ -2,10 +2,9 @@
 
 std::string lexer::IdentifierStr;
 double lexer::NumVal;
+int lexer::LastChar = ' ';
 
 int lexer::gettok() {
-    int LastChar = ' ';
-
     while (isspace(LastChar))
         LastChar = getchar();
 

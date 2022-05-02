@@ -24,5 +24,6 @@ enum Token {
 int gettok();
 extern std::string IdentifierStr;
 extern double NumVal;
+extern int LastChar;
 }
 #endif //__KALEDOSCOPE_INCLUDE_LEXER_HPP__
