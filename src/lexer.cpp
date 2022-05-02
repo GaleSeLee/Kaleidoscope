@@ -1,5 +1,8 @@
 #include "lexer.hpp"
 
+std::string lexer::IdentifierStr;
+double lexer::NumVal;
+
 int lexer::gettok() {
     int LastChar = ' ';
 

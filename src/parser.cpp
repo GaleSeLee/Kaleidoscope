@@ -1,6 +1,10 @@
 #include "parser.hpp"
 #include "log.hpp"
 
+int parser::CurTok;
+int parser::getNextToken();
+std::map<char, int> parser::BinOpPrecedence;
+
 ExprAST::~ExprAST(){}
 
 NumberExprAST::NumberExprAST(double Val) : Val(Val) {}

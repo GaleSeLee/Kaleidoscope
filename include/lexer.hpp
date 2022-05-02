@@ -22,7 +22,7 @@ enum Token {
 };
 
 int gettok();
-std::string IdentifierStr;
-double NumVal;
+extern std::string IdentifierStr;
+extern double NumVal;
 }
 #endif //__KALEDOSCOPE_INCLUDE_LEXER_HPP__
