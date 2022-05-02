@@ -9,3 +9,8 @@ std::unique_ptr<PrototypeAST> LogErrorP(const char *Str) {
     LogError(Str);
     return nullptr;
 }
+
+Value *LogErrorV(const char *Str) {
+    LogError(Str);
+    return nullptr;
+}

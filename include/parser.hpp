@@ -9,6 +9,8 @@
 class ExprAST {
 public:
     virtual ~ExprAST(); 
+    // Value is a class used to represent a SSA register in LLVM
+    virtual Value *codegen() = 0;
 };
 
 // Expression class for the digit
@@ -17,6 +19,7 @@ class NumberExprAST : public ExprAST {
 
 public:
     NumberExprAST(double Val);
+    Vaule *codegen() override;
 };
 
 // Expression class for a variable
@@ -25,6 +28,7 @@ class VariableExprAST : public ExprAST {
 
 public: 
     VariableExprAST(const std::string &Name); 
+    Vaule *codegen() override;
 };
 
 // Expression class for a  binary operator
@@ -35,6 +39,7 @@ class BinaryExprAST : public ExprAST {
 public:
     BinaryExprAST(char Op, std::unique_ptr<ExprAST> LHS,
                     std::unique_ptr<ExprAST> RHS);
+    Vaule *codegen() override;
 };
 
 // Expression class for a function call
@@ -45,6 +50,7 @@ class CallExprAST : public ExprAST {
 public:
     CallExprAST(const std::string &Callee,
                 std::vector<std::unique_ptr<ExprAST>> Args);
+    Vaule *codegen() override;
 };
 
 // Expression class for the function call, for instance functionname(id*)
@@ -55,6 +61,7 @@ class PrototypeAST {
 public:
     PrototypeAST(const std::string &name, std::vector<std::string> Args);
     const std::string &getName(); 
+    Vaule *codegen() override;
 };
 
 // Expression class for the function, contains body and name.
@@ -65,6 +72,7 @@ class FunctionAST {
 public:
     FunctionAST(std::unique_ptr<PrototypeAST> Proto,
                 std::unique_ptr<ExprAST> Body);
+    Vaule *codegen() override;
 };
 
 namespace parser {
