@@ -1,8 +1,8 @@
 #include "parser.hpp"
 #include "log.hpp"
+#include "stdio.h"
 
 int parser::CurTok;
-int parser::getNextToken();
 std::map<char, int> parser::BinOpPrecedence;
 
 ExprAST::~ExprAST(){}
@@ -243,9 +243,9 @@ int main() {
     parser::BinOpPrecedence['+'] = 20;
     parser::BinOpPrecedence['-'] = 30;
     parser::BinOpPrecedence['*'] = 40;
-    fprintf(stderr, "ready> ");
+    printf("ready> ");
     parser::getNextToken();
-
+    
     parser::MainLoop();
 
     return 0;

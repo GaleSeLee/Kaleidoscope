@@ -69,7 +69,7 @@ public:
 
 namespace parser {
     extern int CurTok;
-    extern int getNextToken();
+    int getNextToken();
     int GetTokPrecedence();
     extern std::map<char, int> BinOpPrecedence;
     std::unique_ptr<ExprAST> NumberExpr();
