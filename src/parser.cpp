@@ -196,22 +196,38 @@ std::unique_ptr<FunctionAST> parser::TopLevelExpr() {
 }
 
 void parser::HandleDef() {
-    if (parser::Definition())
-        fprintf(stderr, "Parsed a function definition. \n");
+    if (auto FnAST = parser::Definition()) {
+        if (auto *FnIR = FnAST->codegen()) {
+            fprintf(stderr, "Read function definition: \n");
+            FnIR->print(llvm::errs());
+            fprintf(stderr, "\n");
+        }
+    }   
     else 
         parser::getNextToken();
 }
 
 void parser::HandleTLE() {
-    if (parser::TopLevelExpr())
-        fprintf(stderr, "Parsed a top-level expr\n");
+    if (auto FnAST = parser::TopLevelExpr()) {
+        if (auto *FnIR = FnAST->codegen()) {
+            fprintf(stderr, "Read Top-level expression: \n");
+            FnIR->print(llvm::errs());
+            fprintf(stderr, "\n");
+            FnIR->eraseFromParent();
+        }
+    }
     else 
         parser::getNextToken();
 }
 
 void parser::HandleExtern() {
-    if (parser::Extern()) 
-        fprintf(stderr, "Parsed an extern\n");
+    if (auto ProtoAST = parser::Extern()) {
+        if (auto *FnIR = ProtoAST->codegen()) {
+        fprintf(stderr, "Read extern: ");
+        FnIR->print(llvm::errs());
+        fprintf(stderr, "\n");
+        }
+    }
     else 
         parser::getNextToken();
 }  
