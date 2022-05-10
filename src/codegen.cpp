@@ -1,8 +1,8 @@
 #include "codegen.hpp"
 
-std::unique_ptr<llvm::LLVMContext> codegen::TheContext;
-std::unique_ptr<llvm::IRBuilder<>> codegen::Builder;
-std::unique_ptr<llvm::Module> codegen::TheModule;
+std::unique_ptr<llvm::LLVMContext> codegen::TheContext = std::make_unique<llvm::LLVMContext>();
+std::unique_ptr<llvm::IRBuilder<>> codegen::Builder = std::make_unique<llvm::IRBuilder<>>(*codegen::TheContext);
+std::unique_ptr<llvm::Module> codegen::TheModule = std::make_unique<llvm::Module>("My first jit", *codegen::TheContext);
 std::map<std::string, llvm::Value *> codegen::NamedValues;
 
 llvm::Value *LogErrorV(const char *Str) {
@@ -86,7 +86,9 @@ llvm::Function *PrototypeAST::codegen() {
 }
 
 llvm::Function *FunctionAST::codegen() {
-    llvm::Function *TheFunction = codegen::TheModule->getFunction(this->Proto->getName());
+    auto test = Proto->getName();
+    llvm::Function *TheFunction = codegen::TheModule->getFunction(Proto->getName());
+
 
     if (!TheFunction)
         TheFunction = this->Proto->codegen();
