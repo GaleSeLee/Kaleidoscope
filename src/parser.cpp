@@ -234,7 +234,6 @@ void parser::HandleExtern() {
 
 void parser::MainLoop() {
     while(1) {
-        fprintf(stderr, "ready> ");
         switch (parser::CurTok) {
         case lexer::tok_eof:
             return;
@@ -251,6 +250,8 @@ void parser::MainLoop() {
             parser::HandleTLE();
             break;
         }
+        
+        fprintf(stderr, "ready> ");
     }
 }
 
@@ -262,6 +263,7 @@ int main() {
     printf("ready> ");
     parser::getNextToken();
     
+
     parser::MainLoop();
 
     return 0;
